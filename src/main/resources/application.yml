@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: tichtic
+  datasource:
+    url: ${DBHOST}
+    username: ${DBUSER}
+    password: ${DBPASSWORD}
+  redis:
+    host: localhost
+    port: 6379
+  cache:
+    type: redis
+  kafka:
+    bootstrap-servers: localhost:9092
+shortener:
+  defaultExpireInDays: 7
+  urlPrefix: localhost:8080
+
+logging:
+  level:
+    org:
+      springframework:
+        cache: TRACE
