@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
@@ -14,6 +16,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 import static org.apache.commons.text.CharacterPredicates.DIGITS;
 import static org.apache.commons.text.CharacterPredicates.LETTERS;
@@ -35,8 +38,8 @@ public class UrlService {
     public UrlDTO createUrl(String originalUrl){
         try {
             new URI(originalUrl).toURL();
-        } catch (URISyntaxException | MalformedURLException e) {
-            throw new RuntimeException(e);
+        } catch (URISyntaxException | MalformedURLException | IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid URL", e);
         }
         UrlModel newUrl = new UrlModel();
         newUrl.setOriginalUrl(originalUrl);
@@ -58,6 +61,9 @@ public class UrlService {
     @Cacheable(value = "shortUrl", key = "#shortCode")
     public String getExpandedUrl(String shortCode){
         UrlModel urlModel = urlRepository.getByShortCode(shortCode);
+        if (Objects.isNull(urlModel)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Shortcode not found");
+        }
         return urlModel.getOriginalUrl();
     }
 
