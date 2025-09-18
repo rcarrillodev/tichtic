@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultCard = document.getElementById('result');
     const shortUrlInput = document.getElementById('shortUrl');
     const copyButton = document.getElementById('copyButton');
+    const openLinkButton = document.getElementById('openLink');
     const API_BASE_URL = 'http://localhost:8080'; // Update this with your actual API URL
 
     urlForm.addEventListener('submit', async (e) => {
@@ -45,6 +46,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 2000);
         } catch (err) {
             console.error('Failed to copy text: ', err);
+        }
+    });
+
+    openLinkButton.addEventListener('click', () => {
+        const url = shortUrlInput.value;
+        if (url) {
+            window.open(url, '_blank');
         }
     });
 });

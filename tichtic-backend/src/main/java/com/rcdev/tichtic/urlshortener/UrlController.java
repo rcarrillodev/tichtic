@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Controller
 @RequestMapping(path = "/")
@@ -23,7 +22,17 @@ public class UrlController {
     }
 
     @PostMapping
-    @CrossOrigin(origins = {"null", "file://"}, allowedHeaders = "*")
+    @CrossOrigin(
+    origins = {
+        "null",
+        "file://",
+        "http://localhost",
+        "http://localhost:80",
+        "http://apache",
+        "http://apache:80"
+    },
+    allowedHeaders = "*"
+    )
     public ResponseEntity<UrlDTO> createShortUrl(@RequestParam String url){
         return new ResponseEntity<>(urlService.createUrl(url), HttpStatus.OK);
     }

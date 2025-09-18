@@ -50,7 +50,7 @@ public class UrlService {
         }
         newUrl.setShortCode(shortcode);
         newUrl.setCreatedAt(LocalDateTime.now());
-        newUrl.setExpiresOn(LocalDateTime.now().plusSeconds(10));
+        newUrl.setExpiresOn(LocalDateTime.now().plusDays(defaultExpireInDays));
         urlRepository.save(newUrl);
         UrlDTO result = new UrlDTO();
         result.setUrl(originalUrl);

@@ -2,17 +2,17 @@ spring:
   application:
     name: tichtic
   datasource:
-    url: jdbc:mysql://localhost:3306/tichtic
+    url: jdbc:mysql://database:3306/tichtic?allowPublicKeyRetrieval=true
     username: tichtic
     password: tichtic
-  redis:
-    data:
-      host: localhost
+  data:
+    redis:
+      host: redis
       port: 6379
   cache:
     type: redis
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: kafka:9092
 shortener:
   defaultExpireInDays: 7
   urlPrefix: http://localhost:8080
@@ -22,3 +22,4 @@ logging:
     org:
       springframework:
         cache: TRACE
+        secutrity: DEBUG

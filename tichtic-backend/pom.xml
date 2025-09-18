@@ -28,9 +28,9 @@
 	</scm>
 	<properties>
 		<java.version>24</java.version>
-        <db.DBHOST>${DBHOST}</db.DBHOST>
-        <db.DBUSER>${DBUSER}</db.DBUSER>
-        <db.DBPASSWORD>${DBPASSWORD}</db.DBPASSWORD>
+        <db.DBHOST>localhost</db.DBHOST>
+        <db.DBUSER>tichtic</db.DBUSER>
+        <db.DBPASSWORD>tichtic</db.DBPASSWORD>
 	</properties>
 	<dependencies>
         <dependency>
@@ -104,7 +104,7 @@
 				<configuration>
 					<changeLogFile>src/main/resources/database/master-changelog.xml</changeLogFile>
 					<driver>com.mysql.cj.jdbc.Driver</driver>
-            		<url>jdbc:mysql://${db.DBHOST}:3306/tichtic</url>
+            		<url>jdbc:mysql://${db.DBHOST}:3306/tichtic?allowPublicKeyRetrieval=true</url>
 					<username>${db.DBUSER}</username>
 					<password>${db.DBPASSWORD}</password>
           		</configuration>
