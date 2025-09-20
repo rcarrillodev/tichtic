@@ -14,11 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class UrlController {
 
     private UrlService urlService;
-    private StatsMessagePublisher statsMessagePublisher;
 
-    public UrlController(UrlService urlService, StatsMessagePublisher statsMessagePublisher) {
+    public UrlController(UrlService urlService) {
         this.urlService = urlService;
-        this.statsMessagePublisher = statsMessagePublisher;
     }
 
     @PostMapping
@@ -40,8 +38,6 @@ public class UrlController {
     @GetMapping("/{shortCode}")
     public ModelAndView expandUrl(@PathVariable String shortCode){
         String url = urlService.getExpandedUrl(shortCode);
-        StatsMessage statsMessage = new StatsMessage(shortCode);
-        statsMessagePublisher.publishStatsMessage(statsMessage);
         return new ModelAndView("redirect:" + url);
     }
 }
