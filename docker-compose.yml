@@ -25,15 +25,14 @@ services:
     networks:
       - tichtic-network
   database:
-    image: mysql:9
+    image: postgres:18
     container_name: tichtic-database
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: tichtic
-      MYSQL_USER: tichtic
-      MYSQL_PASSWORD: tichtic
+      POSTGRES_USER: tichtic
+      POSTGRES_PASSWORD: tichtic
+      POSTGRES_DB: tichtic
     ports:
-      - "3306:3306"
+      - "5432:5432"
     networks:
       - tichtic-network
   zookeeper:
@@ -67,7 +66,7 @@ services:
     volumes:
       - ./tichtic-ui:/usr/local/apache2/htdocs/
     ports:
-      - "80:80"
+      - "8081:80"
     networks:
       - tichtic-network
 

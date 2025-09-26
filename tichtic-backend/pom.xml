@@ -66,8 +66,9 @@
             <version>1.13.1</version>
         </dependency>
 		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+            <version>42.7.7</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -103,8 +104,8 @@
 				<version>4.33.0</version>
 				<configuration>
 					<changeLogFile>src/main/resources/database/master-changelog.xml</changeLogFile>
-					<driver>com.mysql.cj.jdbc.Driver</driver>
-            		<url>jdbc:mysql://${db.DBHOST}:3306/tichtic?allowPublicKeyRetrieval=true</url>
+					<driver>org.postgresql.Driver</driver>
+            		<url>jdbc:postgresql://${db.DBHOST}:5432/tichtic</url>
 					<username>${db.DBUSER}</username>
 					<password>${db.DBPASSWORD}</password>
           		</configuration>

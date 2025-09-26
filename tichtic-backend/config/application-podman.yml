@@ -2,7 +2,7 @@ spring:
   application:
     name: tichtic
   datasource:
-    url: jdbc:mysql://database:3306/tichtic?allowPublicKeyRetrieval=true
+    url: jdbc:postgresql://database:5432/tichtic
     username: tichtic
     password: tichtic
   data:

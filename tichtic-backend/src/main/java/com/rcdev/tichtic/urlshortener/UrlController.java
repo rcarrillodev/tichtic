@@ -25,9 +25,9 @@ public class UrlController {
         "null",
         "file://",
         "http://localhost",
-        "http://localhost:80",
+        "http://localhost:8081",
         "http://apache",
-        "http://apache:80"
+        "http://apache:8081"
     },
     allowedHeaders = "*"
     )
