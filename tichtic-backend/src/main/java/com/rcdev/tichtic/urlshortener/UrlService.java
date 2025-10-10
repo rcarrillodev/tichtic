@@ -1,6 +1,5 @@
 package com.rcdev.tichtic.urlshortener;
 
-import com.rcdev.tichtic.stats.StatsMessagePublisher;
 import com.rcdev.tichtic.stats.dto.StatsMessage;
 import com.rcdev.tichtic.urlshortener.dto.UrlDTO;
 import org.apache.commons.text.RandomStringGenerator;
@@ -30,13 +29,11 @@ public class UrlService {
     @Value("${shortener.urlPrefix: ''}")
     private String urlPrefix;
     private UrlRepository urlRepository;
-    private StatsMessagePublisher statsMessagePublisher;
 
     private static final Logger logger = LoggerFactory.getLogger(UrlService.class);
 
-    public UrlService (UrlRepository urlRepository, StatsMessagePublisher statsMessagePublisher){
+    public UrlService (UrlRepository urlRepository){
         this.urlRepository = urlRepository;
-        this.statsMessagePublisher = statsMessagePublisher;
     }
 
     public UrlDTO createUrl(String originalUrl){
@@ -68,13 +65,7 @@ public class UrlService {
         if (Objects.isNull(urlModel)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Shortcode not found");
         }
-        publishVisitStatsMessage(shortCode);
         return urlModel.getOriginalUrl();
-    }
-
-    private void publishVisitStatsMessage(String shortCode){
-        StatsMessage statsMessage = new StatsMessage(shortCode);
-        statsMessagePublisher.publishStatsMessage(statsMessage);
     }
 
     @Scheduled(fixedRate = 100000)
