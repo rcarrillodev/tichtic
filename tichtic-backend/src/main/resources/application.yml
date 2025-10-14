@@ -15,6 +15,7 @@ spring:
     bootstrap-servers: localhost:9092
 shortener:
   defaultExpireInDays: 7
+  maxShortUrlLength: 8
   urlPrefix: http://localhost:8080
 
 logging:
