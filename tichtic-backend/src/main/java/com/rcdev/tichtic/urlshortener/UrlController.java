@@ -41,7 +41,7 @@ public class UrlController {
 
     @GetMapping("/{shortCode}")
     public ModelAndView expandUrl(@PathVariable String shortCode){
-        String url = urlService.getExpandedUrl(shortCode);
+        String url = urlService.getExpandedUrl(shortCode).getOriginalUrl();
         if (Objects.nonNull(url)){
             publishVisitStatsMessage(shortCode);
             return new ModelAndView("redirect:" + url);
