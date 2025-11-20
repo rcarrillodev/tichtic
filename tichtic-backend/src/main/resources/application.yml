@@ -5,6 +5,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/tichtic
     username: tichtic
     password: tichtic
+  liquibase:
+    enabled: true
+    change-log: classpath:database/master-changelog.xml
+    default-schema: public
   redis:
     data:
       host: localhost
