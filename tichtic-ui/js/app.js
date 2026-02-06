@@ -4,8 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const shortUrlInput = document.getElementById('shortUrl');
     const copyButton = document.getElementById('copyButton');
     const openLinkButton = document.getElementById('openLink');
-    const API_BASE_URL = 'http://localhost:8080'; // Update this with your actual API URL
-
+    const API_BASE_URL = 'http://localhost:8080'; 
     urlForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
