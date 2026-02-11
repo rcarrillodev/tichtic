@@ -15,17 +15,20 @@ class TichticStat(Base):
     short_code = Column(String, primary_key=True, index=True)
     hits = Column(Integer, index=True)
     last_accessed = Column(DateTime)
+    created_at = Column(DateTime)
+    original_url = Column(String)
 
 Session = sessionmaker(bind=engine)
 session = Session()
 
-def log_stat(short_code: str):
+def log_stat(short_code: str, original_url: str, created_at: str):
     stat = session.query(TichticStat).filter(TichticStat.short_code == short_code).first()
     if stat:
         stat.hits += 1
         stat.last_accessed = datetime.now()
     else:
-        stat = TichticStat(short_code=short_code, hits=1, last_accessed=datetime.utcnow())
+        stat = TichticStat(short_code=short_code, hits=1, last_accessed=datetime.utcnow(),
+                            created_at=datetime.fromisoformat(created_at), original_url=original_url)
         session.add(stat)
     session.commit()
     session.close()

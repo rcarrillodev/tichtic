@@ -17,7 +17,7 @@ public class StatsController {
         this.statsService = statsService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     @CrossOrigin(
             origins = {
                 "null",

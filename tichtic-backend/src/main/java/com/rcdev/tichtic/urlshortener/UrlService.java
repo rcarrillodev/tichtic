@@ -46,8 +46,7 @@ public class UrlService {
         UrlModel newUrl;
 
         try {
-            newUrl = getExpandedUrl(shortcode);
-            return toUrlDto(newUrl);
+            return getExpandedUrl(shortcode);
         } catch (ResponseStatusException e){
             logger.info("Creating new short url");
             newUrl = new UrlModel();
@@ -61,12 +60,12 @@ public class UrlService {
     }
 
     @Cacheable(value = "shortUrl", key = "#shortCode")
-    public UrlModel getExpandedUrl(String shortCode){
+    public UrlDTO getExpandedUrl(String shortCode){
         UrlModel urlModel = urlRepository.getByShortCode(shortCode);
         if (Objects.isNull(urlModel)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Shortcode not found");
         }
-        return urlModel;
+        return toUrlDto(urlModel);
     }
 
     @Scheduled(fixedRate = 100000)
@@ -88,9 +87,10 @@ public class UrlService {
 
     private UrlDTO toUrlDto(UrlModel urlModel){
         UrlDTO result = new UrlDTO();
-        result.setUrl(urlModel.getOriginalUrl());
-        result.setShortenedUrl(urlModel.getShortCode());
+        result.setOriginalUrl(urlModel.getOriginalUrl());
         result.setShortenedUrl(String.format("%s/%s",urlPrefix,urlModel.getShortCode()));
+        result.setCreatedAt(urlModel.getCreatedAt().toString());
+        result.setShortCode(urlModel.getShortCode());
         return result;
     }
 }

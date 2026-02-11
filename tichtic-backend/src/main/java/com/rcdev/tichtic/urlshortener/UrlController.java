@@ -4,7 +4,8 @@ import java.util.Objects;
 import com.rcdev.tichtic.stats.StatsMessagePublisher;
 import com.rcdev.tichtic.stats.dto.StatsMessage;
 import com.rcdev.tichtic.urlshortener.dto.UrlDTO;
-import com.rcdev.tichtic.stats.StatsMessagePublisher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ public class UrlController {
 
     private UrlService urlService;
     private StatsMessagePublisher statsMessagePublisher;
+    private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     public UrlController(UrlService urlService, StatsMessagePublisher statsMessagePublisher){
         this.urlService = urlService;
@@ -41,17 +43,19 @@ public class UrlController {
 
     @GetMapping("/{shortCode}")
     public ModelAndView expandUrl(@PathVariable String shortCode){
-        String url = urlService.getExpandedUrl(shortCode).getOriginalUrl();
+        UrlDTO expandedUrl = urlService.getExpandedUrl(shortCode);
+        String url = expandedUrl.getOriginalUrl();
+        logger.info("Redirecting to url: " + expandedUrl);
         if (Objects.nonNull(url)){
-            publishVisitStatsMessage(shortCode);
+            publishVisitStatsMessage(expandedUrl);
             return new ModelAndView("redirect:" + url);
         } else {
             return new ModelAndView("error/404");
         }
     }
 
-    private void publishVisitStatsMessage(String shortCode){
-        StatsMessage statsMessage = new StatsMessage(shortCode);
+    private void publishVisitStatsMessage(UrlDTO expandedUrl){
+        StatsMessage statsMessage = new StatsMessage(expandedUrl.getShortCode(),expandedUrl.getOriginalUrl(), expandedUrl.getCreatedAt());
         statsMessagePublisher.publishStatsMessage(statsMessage);
     }
 }

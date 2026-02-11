@@ -19,4 +19,6 @@ public class StatsModel {
     private String shortCode;
     private Long hits;
     private LocalDate lastAccessed;
+    private String originalUrl;
+    private String createdAt;
 }
