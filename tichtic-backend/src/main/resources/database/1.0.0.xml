@@ -36,6 +36,12 @@
             <column name="last_accessed" type="TIMESTAMP">
                 <constraints nullable="true"/>
             </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="original_url" type="VARCHAR(2048)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>

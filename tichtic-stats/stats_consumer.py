@@ -17,7 +17,7 @@ def process_message(message):
         event = json.loads(incoming_data)
         if 'shortCode' in event:
             log.info(f"Logging stat for shortCode: {event['shortCode']}")
-            database_client.log_stat(event['shortCode'])
+            database_client.log_stat(event.get('shortCode'),event.get('originalUrl'),event.get('createdAt'))
         else:
             log.warning(f"Message does not contain 'shortCode': {incoming_data}")
     except Exception as e:
