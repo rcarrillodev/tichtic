@@ -16,10 +16,3 @@ spring:
 shortener:
   defaultExpireInDays: 7
   urlPrefix: http://localhost:8080
-
-logging:
-  level:
-    org:
-      springframework:
-        cache: TRACE
-        secutrity: DEBUG
