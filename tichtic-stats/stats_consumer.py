@@ -2,13 +2,15 @@ from kafka import KafkaConsumer
 import signal
 import json
 import logging
+import os
 import database_client
+import dotenv
 
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger()
-
+dotenv.load_dotenv()
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
 def process_message(message):
     try:
@@ -37,7 +39,7 @@ def main():
     try:
         consumer = KafkaConsumer(
             'tichtic-stats',
-            bootstrap_servers=['localhost:9093'],
+            bootstrap_servers=[f"{os.environ.get('KAFKA_BOOTSTRAP_SERVERS')}"],
             auto_offset_reset='earliest',
             enable_auto_commit=True,
             group_id='tichtic-stats-consumer-group',
@@ -61,4 +63,6 @@ def main():
         exit(1)
 
 if __name__ == "__main__":
+    log.info("Starting Tichtic Stats Consumer...")
+    log.info(f'Configuration - KAFKA_BOOTSTRAP_SERVERS: {os.environ.get("KAFKA_BOOTSTRAP_SERVERS")}')
     main()

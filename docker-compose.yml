@@ -78,7 +78,18 @@ services:
       - "8081:80"
     networks:
       - tichtic-network
-
+  stats:
+    build:
+      context: ./tichtic-stats
+      dockerfile: Dockerfile
+      depends_on:
+        - database
+        - kafka
+    container_name: tichtic-stats
+    networks:
+      - tichtic-network
+    env_file:
+      - ./tichtic-stats/.env
 networks:
   tichtic-network:
     driver: bridge
